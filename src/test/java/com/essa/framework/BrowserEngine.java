@@ -16,25 +16,53 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class BrowserEngine {  
     
-    private String browserName;  
+    private static String browserName;  
     private String serverURL;  
-    private WebDriver driver;  
+    private String buyerURL;
+    private static WebDriver driver;  
+    private static String env;
       
     public void initConfigData() throws IOException{  
           
         Properties p = new Properties();  
         // 加载配置文件  
-        InputStream ips = new FileInputStream(".\\src\\main\\resources\\TestConfig\\config.properties");  
+//        InputStream ips = new FileInputStream(".\\src\\main\\resources\\TestConfig\\config.properties");  
+        InputStream ips = new FileInputStream(".\\config.properties");  
         p.load(ips);  
           
         Logger.Output(LogType.LogTypeName.INFO, "开始从配置文件中选择浏览器");  
-        browserName=p.getProperty("browserName");  
-        Logger.Output(LogType.LogTypeName.INFO, "所选择的浏览器类型为: "+ browserName);  
-        serverURL = p.getProperty("URL");  
-        Logger.Output(LogType.LogTypeName.INFO, "所测试的URL地址为: "+ serverURL);  
+//        browserName=p.getProperty("browserName");//使用jframe要注释
+        Logger.Output(LogType.LogTypeName.INFO, "所选择的浏览器类型为: "+ browserName); 
+        if (env=="DIT") {
+        	serverURL = p.getProperty("DIT"); 
+        	buyerURL = p.getProperty("BDIT");
+        	}else if (env =="HOTFIX") {
+        		serverURL = p.getProperty("HOTFIX");
+        		buyerURL = p.getProperty("BHOTFIX");
+			}else if (env == "UAT") {
+				serverURL = p.getProperty("UAT"); 
+				buyerURL = p.getProperty("BUAT");
+			}else {
+				serverURL = p.getProperty("SIT"); 
+				buyerURL = p.getProperty("BSIT");
+			}
+        Logger.Output(LogType.LogTypeName.INFO, "所测试的环境为："+ env);  
         ips.close();  
     }  
+    /**
+     * bpms环境初始化
+     * @param environment
+     * @param browser
+     */
+    public static void setInit(String environment,String browser) {
+    	browserName = browser;
+    	env = environment;
+    }
       
+    /**
+     * bpms获取地址方法
+     * @return
+     */
     public WebDriver getBrowser(){  
         
     	if(browserName.equalsIgnoreCase("Firefox")){  
@@ -45,7 +73,8 @@ public class BrowserEngine {
               
         }
     	else if(browserName.equals("Chrome")){  
-            System.setProperty("webdriver.chrome.driver", ".\\src\\main\\resources\\chromedriver.exe");  
+//    		System.setProperty("webdriver.chrome.driver", ".\\src\\main\\resources\\chromedriver.exe"); 
+            System.setProperty("webdriver.chrome.driver", ".\\chromedriver.exe");  
             driver= new ChromeDriver();  
             Logger.Output(LogType.LogTypeName.INFO, "正在启动Chrome浏览器");  
               
@@ -62,6 +91,25 @@ public class BrowserEngine {
         callWait(5);  
         return driver;  
     }  
+   
+    /**
+     * buyer获取浏览器，并读取buyer的地址
+     * @return
+     */
+    public WebDriver buyerGetBrowser() {
+    	if (browserName.equals("Chrome")) {
+//    		System.setProperty("webdriver.chrome.driver", ".\\src\\main\\resources\\chromedriver.exe");
+    		System.setProperty("webdriver.chrome.driver", ".\\chromedriver.exe"); 
+    		driver= new ChromeDriver();  
+            Logger.Output(LogType.LogTypeName.INFO, "正在启动Chrome浏览器");  
+		}
+    	driver.manage().window().maximize();  
+        Logger.Output(LogType.LogTypeName.INFO, "窗口最大化");
+        driver.get(buyerURL);  
+        Logger.Output(LogType.LogTypeName.INFO, "打开URL: "+ buyerURL);  
+        callWait(5);  
+        return driver;  
+    }
       
     /* 
      * 关闭浏览器并退出方法 

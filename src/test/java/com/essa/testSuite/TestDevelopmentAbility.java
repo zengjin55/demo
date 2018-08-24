@@ -17,7 +17,7 @@ import com.essa.pageObject.SupplierOperationsTrackPage;
 import com.essa.pageObject.SupplierStrengthPage;
 import com.essa.pageObject.BaseTest;
 
-public class Test_Development_Ability extends BaseTest {
+public class TestDevelopmentAbility extends BaseTest {
 
 	WebDriver driver;
 
@@ -27,7 +27,7 @@ public class Test_Development_Ability extends BaseTest {
 
 		initsetUp();
 
-		loginValid();
+		loginValid("admin");
 
 	}
 

@@ -14,7 +14,7 @@ import com.essa.framework.BrowserEngine;
 import com.essa.pageObject.HomePage;
 import com.essa.pageObject.LoginPage;
 
-public class Test_Login {
+public class TestLogin {
 	WebDriver driver;
 	
 	/*

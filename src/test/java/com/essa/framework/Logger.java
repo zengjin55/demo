@@ -8,12 +8,15 @@ import java.util.Date;
 
 import com.essa.framework.LogType;
 
+import demo.firstDemo;
+
 public class Logger {  
     
-    public static String OutputFileName = getDateTimeByFormat(new Date(), "yyyyMMdd_HHmmss");  
+    public static String OutputFileName = getDateTimeByFormat(new Date(), "yyyyMMdd");  
     private static OutputStreamWriter outputStreamWriter;  
     private static String logFileName;  
     public static boolean LogFlag = true;  
+    public static String logContent;
   
     public Logger() {  
   
@@ -34,6 +37,7 @@ public class Logger {
                 outputStreamWriter = new OutputStreamWriter(new FileOutputStream(logFileName), "utf-8");  
             }  
             outputStreamWriter.write(logEntry, 0, logEntry.length());  
+            
             outputStreamWriter.flush();  
   
         } catch (Exception e) {  
@@ -54,13 +58,25 @@ public class Logger {
     }  
       
     public static void Output(LogType.LogTypeName logTypeName, String logMessage) {  
-  
+    	firstDemo aa = new firstDemo();
         Date date = new Date();  
         String logTime = getDateTimeByFormat(date, "yyyy-MM-dd HH:mm:ss.SSS");  
         String logEntry = logTime + " " + logTypeName.name() + ": " + logMessage + "\r\n";  
-        System.out.print(logEntry);  
+        System.out.print(logEntry); 
+        setLog(logEntry);
         // 定义一个开关，为True就输出日志，如果你不想输出，改成False  
         if (LogFlag)  
             WriteLog(logEntry);  
         }  
+    /**
+     * 获取日志信息
+     * @return
+     */
+    public static String getLog() {
+    	return logContent;
+    }
+    
+    public static void setLog(String logEntry) {
+    	logContent = logEntry;
+    }
 }  

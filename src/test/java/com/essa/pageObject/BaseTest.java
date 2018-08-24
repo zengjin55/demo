@@ -14,24 +14,39 @@ public class BaseTest {
 		return driver;
 	}
 	
-	// 调用浏览器，打开要测试的网页
-	public void initsetUp() throws IOException {
-		
+	/**
+	 * bpms调用浏览器，打开要测试的网页
+	 */
+	public void initsetUp() {
 		BrowserEngine browserEngine = new BrowserEngine();
-		
-		browserEngine.initConfigData();
-		
+		try {
+			browserEngine.initConfigData();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		driver = browserEngine.getBrowser();
-		
+	}
+	
+	/**
+	 * buyer调用浏览器，将访问buyer的地址
+	 */
+	public void initBuyer() {
+		BrowserEngine browserEngine = new BrowserEngine();
+		try {
+			browserEngine.initConfigData();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		driver = browserEngine.buyerGetBrowser();
 	}
 
-	//初始化登录页面，登录
-	public void loginValid() {
-		
+	/**
+	 * bpms初始化登录页面，登录
+	 * @param account
+	 */
+	public void loginValid(String account) {
 		LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
-		
-		loginPage.login("admin", "essa123");
-		
+		loginPage.login(account, "essa123");
 	}
 }
 
