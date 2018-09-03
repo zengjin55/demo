@@ -8,8 +8,6 @@ import java.util.Date;
 
 import com.essa.framework.LogType;
 
-import demo.firstDemo;
-
 public class Logger {  
     
     public static String OutputFileName = getDateTimeByFormat(new Date(), "yyyyMMdd");  
@@ -58,8 +56,7 @@ public class Logger {
     }  
       
     public static void Output(LogType.LogTypeName logTypeName, String logMessage) {  
-    	firstDemo aa = new firstDemo();
-        Date date = new Date();  
+    	Date date = new Date();  
         String logTime = getDateTimeByFormat(date, "yyyy-MM-dd HH:mm:ss.SSS");  
         String logEntry = logTime + " " + logTypeName.name() + ": " + logMessage + "\r\n";  
         System.out.print(logEntry); 

@@ -11,9 +11,15 @@ import com.essa.pageObject.GoodsManage.GoodsBankPage;
 import com.essa.pageObject.GoodsManage.GoodsRelesePage;
 import com.essa.pageObject.GoodsManage.MarketGoodsRelesePage;
 import com.essa.pageObject.buyPlaneManage.SkuCategoryManagerCongfigPage;
+import com.essa.pageObject.buyerManage.InvateCodePage;
+import com.essa.pageObject.inquiryManage.ProductInquiryTask;
 import com.essa.pageObject.marketingManage.GroupControlPage;
 import com.essa.pageObject.marketingManage.GroupSettingPage;  
   
+/**
+ * @author Administrator
+ *bpms后台首页
+ */
 public class HomePage extends BasePage{  
     public HomePage(WebDriver driver) {  
         super(driver);  
@@ -91,13 +97,43 @@ public class HomePage extends BasePage{
     @FindBy (xpath="//*[text()='团购控制']/..")
     WebElement groupControl;
     
+    //采购商管理
+    @FindBy (xpath="//*[text()='采购商管理']")
+    WebElement buyerManage;
+    
+    //生成邀请码
+    @FindBy (xpath="//*[text()='生成邀请码']"	)
+    WebElement inviteCode;
+    
+    //询价管理
+    @FindBy (xpath ="//span[text()='询价管理']")
+    WebElement inquiryManage;
+    
+    //成品询价任务列表
+    @FindBy (xpath = "//*[text()='成品询价任务列表']")
+    WebElement productInquiryTask;
+    
+    //产品开发
+    @FindBy (xpath ="//*[text()='产品开发']")
+    WebElement productDev;
+    
+    //项目立项书新增
+    @FindBy (xpath ="//*[text()='项目立项书新增']")
+    WebElement addProject;
+    
+    //项目立项书查询
+    @FindBy (xpath ="//*[text()='项目立项书查询']")
+    WebElement quiryProject;
+    
+    
+    
     /*
      * 方法
      */
     
     /**
      * 进入运营跟进管理页面
-     * @return
+     * @return SupplierOperationsTrackPage
      */
     public SupplierOperationsTrackPage goToSupplierOperationsTrack() {
     	
@@ -114,7 +150,7 @@ public class HomePage extends BasePage{
     
     /**
      * 进入原厂商品发布
-     * @return
+     * @return AddOriginalGoodsPage
      */
     public AddOriginalGoodsPage tOriginalGoodsPage() {
     	click(goodsManage);
@@ -125,7 +161,7 @@ public class HomePage extends BasePage{
     
     /**
      * 进入商品发布管理
-     * @return
+     * @return GoodsRelesePage
      */
     public GoodsRelesePage tGoodsRelesePage() {
     	click(goodsManage);
@@ -135,7 +171,7 @@ public class HomePage extends BasePage{
     
     /**
      * 进入原厂商品发布审核
-     * @return
+     * @return AuditOriginalGoodsPage
      */
     public AuditOriginalGoodsPage toAuditOriginalGoodsPage() {
     	mywait(logout);
@@ -146,7 +182,7 @@ public class HomePage extends BasePage{
     
     /**
      * 进入商品库
-     * @return
+     * @return GoodsBankPage
      */
     public GoodsBankPage toGoodsBankPage() {
     	click(goodsManage);
@@ -156,7 +192,7 @@ public class HomePage extends BasePage{
     
     /**
      * 进入市场商品发布
-     * @return
+     * @return MarketGoodsRelesePage
      */
     public MarketGoodsRelesePage toMarketGoodsRelesePage() {
     	click(goodsManage);
@@ -164,8 +200,8 @@ public class HomePage extends BasePage{
     	return new MarketGoodsRelesePage(driver);
     }
     /**
-     * 进入市场商品发布审核
-     * @return
+     * 进入市场商品发布审核 
+     * @return AuditMarketGoodsPage
      */
     public AuditMarketGoodsPage toAuditMarketGoodsPage() {
     	click(goodsManage);
@@ -174,7 +210,7 @@ public class HomePage extends BasePage{
     }
     /**
      * 进入商品类目经理分配配置
-     * @return
+     * @return SkuCategoryManagerCongfigPage
      */
     public SkuCategoryManagerCongfigPage toSkuCategoryManagerCongfig() {
     	mywait(logout);
@@ -184,7 +220,7 @@ public class HomePage extends BasePage{
     }
     /**
      * 进入团购设置
-     * @return
+     * @return GroupSettingPage
      */
     public GroupSettingPage toGroupSettingPage() {
     	getHome();
@@ -194,27 +230,50 @@ public class HomePage extends BasePage{
     }
     /**
      * 进入团购控制
-     * @return
+     * @return GroupControlPage
      */
     public GroupControlPage toGroupControlPage() {
 //    	getHome();
+    	jsExecutorClick(essaIcon);
     	click(marketingManage);
     	click(groupControl);
     	return new GroupControlPage(driver);
     }
-    //判断是否存在退出按钮
-    public boolean isSucceed() {
-    	
-    	//判断退出按钮是否存在，存在则表示成功进入首页
-    	return isThisPage("退出", logout);
-    	
+    /**
+     * 进入生成邀请码
+     * @return InvateCodePage
+     */
+    public InvateCodePage toInvateCodePage() {
+    	click(buyerManage);
+    	moveHeightScroll("100");
+    	click(inviteCode);
+    	return new InvateCodePage(driver);
+    }
+    /**
+     * 进入成品询价任务列表
+     * @return ProductInquiryTask
+     */
+    public ProductInquiryTask toProductInquiryTask() {
+    	click(inquiryManage);
+    	click(productInquiryTask);
+    	return new ProductInquiryTask(driver);
     }
     
-    //判断是否选中“供应商管理”
+    
+    /**
+     * 判断是否进入后台首页
+     * @return boolean
+     */
+    public boolean isSucceed() {
+    	return isThisPage("退出", logout);
+    }
+    
+    /**
+     * 判断是否选中“供应商管理”
+     * @return
+     */
     public boolean isSearchSuppliers() {
-    	
     	return isElementExist(searchSuppliers);
-    	
     }
     
     /**
@@ -225,10 +284,10 @@ public class HomePage extends BasePage{
     	jsExecutorClick(essaIcon);
     	forceWait(1000);
     }
-    //退出登录
+    /**
+     * 退出登录
+     */
     public void logout() {
-    	
     	click(logout);
-    	
     }
 }  

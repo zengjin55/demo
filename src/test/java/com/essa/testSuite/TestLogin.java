@@ -14,6 +14,10 @@ import com.essa.framework.BrowserEngine;
 import com.essa.pageObject.HomePage;
 import com.essa.pageObject.LoginPage;
 
+/**
+ * @author Administrator
+ *测试用例：登录测试
+ */
 public class TestLogin {
 	WebDriver driver;
 	

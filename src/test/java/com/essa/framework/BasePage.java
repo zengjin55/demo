@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +40,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.essa.framework.BasePage;
 import com.essa.framework.LogType;
 import com.essa.framework.Logger;
+import com.mysql.cj.jdbc.PreparedStatement;
 
 public class BasePage {
 
@@ -229,21 +232,21 @@ public class BasePage {
 	}
 	
 	/**
-	 * 元素在页面上是否可见
+	 * 元素在页面上是否可见，不建议用此方法，有时会报错，找不出原因
 	 * @param element
 	 * @return boolean
 	 */
 	protected boolean isVisibility(WebElement element) {
 		try {
 			if(ExpectedConditions.visibilityOf(element) != null) {
-				Logger.Output(LogType.LogTypeName.INFO, "元素在页面上可见：" +partialStr(element.toString(), "xpath:"));
+				Logger.Output(LogType.LogTypeName.INFO, "元素在页面上可见");
 				return true;
 			}
 		} catch (NoSuchElementException e) {
-			Logger.Output(LogType.LogTypeName.ERROR, "无法页面上是否有此元素:"+partialStr(element.toString(), "xpath:")+ e.getMessage());
+			Logger.Output(LogType.LogTypeName.ERROR, "无法页面上是否有此元素");
 			return false;
 		}
-		Logger.Output(LogType.LogTypeName.INFO, "元素在页面不可见：" +partialStr(element.toString(), "xpath:"));
+		Logger.Output(LogType.LogTypeName.INFO, "元素在页面不可见");
 		return false;
 	}
 	
@@ -270,16 +273,17 @@ public class BasePage {
 	 * 获取元素的文本值
 	 * @param element
 	 */
-	protected void getText(WebElement element) {
+	protected String getText(WebElement element) {
 
 		try {
 			if (element.isEnabled()) {
-				element.getText();
 				Logger.Output(LogType.LogTypeName.INFO, "获取当前元素的文本值：" + element.getText());
+				return element.getText();
 			}
 		} catch (Exception e) {
 			Logger.Output(LogType.LogTypeName.ERROR, e.getMessage() + ".");
 		}
+		return null;
 	}
 
 	/**
@@ -291,7 +295,7 @@ public class BasePage {
 			mywait(element);
 			JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 			jsExecutor.executeScript("arguments[0].click();", element);
-			Logger.Output(LogType.LogTypeName.INFO, "调用JavaScript点击元素：" + element.getText());
+			Logger.Output(LogType.LogTypeName.INFO, "调用JavaScript点击元素：" + partialStr(element.toString(), "xpath:"));
 		} catch (Exception e) {
 			Logger.Output(LogType.LogTypeName.ERROR, e.getMessage() + ".");
 		}
@@ -624,6 +628,35 @@ public class BasePage {
 		} catch (Exception e) {
 			Logger.Output(LogType.LogTypeName.ERROR, "强行等待失败");
 		}
+	}
+	/**
+	 * 动态等待，如果元素不存在，等待一秒直到元素出现
+	 * @param by
+	 */
+	protected void dynamicWait(By by) {
+		while (!(isVisibility(by))) {
+			forceWait(1000);
+		}
+	}
+	/**
+	 * 连接数据库查询数据
+	 * @param sql 查询sql
+	 * @param field 需要的字段，这个方法只支持一个字段查询
+	 * @return 返回字段值
+	 */
+	protected String DBSqlSearch(String sql,String field) {
+		try {
+			Connection conn = DButil.getCon();
+			PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				return rs.getString(field);
+			}
+			DButil.close(rs, pstmt, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	/**

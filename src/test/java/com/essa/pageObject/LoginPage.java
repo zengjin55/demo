@@ -6,11 +6,14 @@ import org.openqa.selenium.support.FindBy;
 
 import com.essa.framework.BasePage;
 
+/**
+ * @author Administrator
+ *bpms登录页
+ */
 public class LoginPage extends BasePage{
 
 	public LoginPage(WebDriver driver) {
 		super(driver);
-		// TODO Auto-generated constructor stub
 	}
 
 	/*
@@ -33,21 +36,19 @@ public class LoginPage extends BasePage{
 	 * 页面方法
 	 */
 	
-	/*
+	/**
 	 * 1.输入帐号
 	 * 2.输入密码
 	 * 3.点击登录
 	 * 4.将driver返回
+	 * @param account
+	 * @param password
+	 * @return HomePage
 	 */
 	public HomePage login(String account,String password) {
-	
 		sendKeys(login_account, account);
-		
 		sendKeys(login_password, password);
-		
 		click(login_submit);
-		
 		return new HomePage(driver);
-		
 	}
 }
