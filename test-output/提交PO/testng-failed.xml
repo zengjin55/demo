@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [提交PO]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="sendPO(failed)">
+    <classes>
+      <class name="com.buyer.testSuite.TestSendPO">
+        <methods>
+          <include name="tearDown"/>
+          <include name="setUp"/>
+          <include name="sendPO"/>
+        </methods>
+      </class> <!-- com.buyer.testSuite.TestSendPO -->
+    </classes>
+  </test> <!-- sendPO(failed) -->
+</suite> <!-- Failed suite [提交PO] -->

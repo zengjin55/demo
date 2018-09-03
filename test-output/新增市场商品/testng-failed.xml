@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [新增市场商品]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="addMarketGoods(failed)">
+    <classes>
+      <class name="com.essa.testSuite.TestAddMarketGoods">
+        <methods>
+          <include name="tearDown"/>
+          <include name="setUp"/>
+          <include name="auditMarketGoods"/>
+        </methods>
+      </class> <!-- com.essa.testSuite.TestAddMarketGoods -->
+    </classes>
+  </test> <!-- addMarketGoods(failed) -->
+</suite> <!-- Failed suite [新增市场商品] -->

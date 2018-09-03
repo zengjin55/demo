@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [采购商注册]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="buyerRegister(failed)">
+    <classes>
+      <class name="com.essa.testSuite.TestGenrateCode">
+        <methods>
+          <include name="tearDown"/>
+          <include name="setUp"/>
+          <include name="genrateCode"/>
+        </methods>
+      </class> <!-- com.essa.testSuite.TestGenrateCode -->
+      <class name="com.buyer.testSuite.TestRegister">
+        <methods>
+          <include name="register"/>
+          <include name="tearDown"/>
+          <include name="setUp"/>
+        </methods>
+      </class> <!-- com.buyer.testSuite.TestRegister -->
+    </classes>
+  </test> <!-- buyerRegister(failed) -->
+</suite> <!-- Failed suite [采购商注册] -->
